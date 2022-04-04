@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+ <title>PDF Render</title>
+<style>
+canvas {
+  border: 1px solid #999;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+
+
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no" >
+  <p>PDF output:</p>
+<button onclick="generatePDF();">
+    generatePDF
+</button>
+<canvas id="c" width="1000" height="500"></canvas>
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.3/fabric.min.js" integrity="sha512-DwbCgiW/2uFJkC4G3dIZmQuEY4aDajSrKaovVFnbVz5+ziJ7fvlWZ2CVEPommhxV8LNB/8uurTxNTzIkkh8PJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script id="rendered-js" >
+        var canvas = window._canvas = new fabric.Canvas('c', {
+                backgroundColor: '#eee'
+            }),
+            img1 = 'http://dummyimage.com/200/09f/fff.png',
+            img2 = 'http://dummyimage.com/240x240/b314b3/fff.jpg',
+            prevDirection;
+        
+            //fabric.Group.prototype.originX = fabric.Group.prototype.originY = 'center';
+
+            
+  const text = new fabric.Textbox("Hello World", {
+    left: 100,
+    top: 200,
+    fill: "black",
+    shadow: new fabric.Shadow({
+      color: "rgba(34, 34, 255, 1)",
+      blur: 1,
+      offsetX: -4,
+      offsetY: 3
+    }),
+    // shadow: '#808080 -4px 3px 5px',
+    //fontFamily: "LikeBellefairButOpentype",
+    fontSize: 48,
+    //openTypeJsShimConfig: shimConfig
+  });
+
+  canvas.add(text);
+  canvas.renderAll();
+
+
+        var textbox = new fabric.Textbox('Hello World');
+        canvas.add(textbox);
+        var textbox = new fabric.Textbox('Hello World New');
+        canvas.add(textbox);
+        fabric.Image.fromURL(img1, function(fimg1) {
+            fimg1.set({
+                left: 700,
+                top: 200,
+                lockUniScaling: true,
+                originX: 'left',
+                originY: 'top'
+            });
+            fabric.Image.fromURL(img2, function(fimg2) {
+                fimg2.set({
+                    left: 400,
+                    top: 300,
+                    lockUniScaling: true,
+                    originX: 'left',
+                    originY: 'top'
+                });
+                canvas.add(fimg1, fimg2);
+            });
+            // fabric.Image.fromURL(img1, function(img3) {
+            //     img3.set({
+            //         left: 500,
+            //         top: 500,
+            //         lockUniScaling: true,
+            //         originX: 'left',
+            //         originY: 'top'
+            //     });
+            //     canvas.add(img3);
+            // });
+            // fabric.Image.fromURL(img2, function(img4) {
+            //     img4.set({
+            //         left: 600,
+            //         top: 600,
+            //         lockUniScaling: true,
+            //         originX: 'left',
+            //         originY: 'top'
+            //     });
+            //     canvas.add(img4);
+            // });
+        });
+        var site_url = '3242022182149.svg';
+
+        fabric.loadSVGFromURL(site_url, function(objects, options) {
+            var SVG = fabric.util.groupSVGElements(objects, options);
+            canvas.add(SVG).centerObject(SVG).renderAll();
+            SVG.setCoords();
+            canvas.renderAll();
+        });
+
+        function generatePDF() {
+            var jsonCanvasArray = [];
+            var objs = canvas.getObjects();
+            canvas.renderAll();
+            for (var i = 0; i < objs.length; i++) {
+               objs[i].setCoords(); 
+            }
+            canvas.renderAll();
+            var objs = canvas.getObjects();
+            for (var i = 0; i < objs.length; i++) {
+                console.log(objs[i].type);
+                var json = {type: objs[i].type, shadow: objs[i].shadow,  svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="833.3333333333334" height="833.3333333333334" viewBox="0 0 833.33 833.33" xml:space="preserve">'+objs[i].toSVG()+'</svg>'};
+                jsonCanvasArray.push(json);
+            }
+            var jsonData = JSON.stringify(jsonCanvasArray);
+            var cwidth = canvas.width;
+            var cheight = canvas.height;
+
+            console.log(jsonData);
+
+            $.ajax({
+                type: 'POST',
+                url: './inkbenchpdf.php',
+                data: {
+                    jsonData: jsonData,
+                    cwidth: cwidth,
+                    cheight: cheight,
+                },
+                success: function(msg) {
+                    alert(msg);
+                    console.log(msg)
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            })
+        }
+        canvas.setZoom(0.5);
+        //# sourceURL=pen.js
+    </script>
+
+
+
+</body>
+
+</html>
+
