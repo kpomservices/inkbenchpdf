@@ -128,17 +128,7 @@
                 var jsonData = JSON.stringify(jsonCanvasArray);
                 var cwidth = canvas.width;
                 var cheight = canvas.height;
-
-                var currentTime = new Date();
-                var currentTime = new Date();
-                var month = currentTime.getMonth() + 1;
-                var day = currentTime.getDate();
-                var year = currentTime.getFullYear();
-                var hours = currentTime.getHours();
-                var minutes = currentTime.getMinutes();
-                var seconds = currentTime.getSeconds();
-                var origfileName = month + '' + day + '' + year + '' + hours + '' + minutes + '' + seconds;
-                var filename = origfileName + ".pdf";
+                var pdffilename = randomfilename() + ".pdf";
 
                 $.ajax({
                     type: 'POST',
@@ -147,10 +137,9 @@
                         jsonData: jsonData,
                         cwidth: cwidth,
                         cheight: cheight,
-                        filename: filename
+                        filename: pdffilename
                     },
                     success: function(msg) {
-                        console.log(msg);
                         window.location.href = "downloadfile.php?file=" + msg;
                     },
                     error: function(err) {
@@ -160,16 +149,6 @@
             }
 
             function rasterPDFdownload() {
-                var currentTime = new Date();
-                var currentTime = new Date();
-                var month = currentTime.getMonth() + 1;
-                var day = currentTime.getDate();
-                var year = currentTime.getFullYear();
-                var hours = currentTime.getHours();
-                var minutes = currentTime.getMinutes();
-                var seconds = currentTime.getSeconds();
-                var origfileName = month + '' + day + '' + year + '' + hours + '' + minutes + '' + seconds;
-                var fileName = '';
                 var cwidth = canvas.width / 1.5;
                 var cheight = canvas.height / 1.5;
 
@@ -216,9 +195,22 @@
                     pdf.addPage();
                     pdf.addImage(img, 'JPEG', 0, 0, width, height);
                     pdf.deletePage(1);
-                    fileName = origfileName + ".pdf";
-                    pdf.save(fileName);
+                    var jspdffileName = randomfilename() + ".pdf";
+                    pdf.save(jspdffileName);
                 }, 10);
+            }
+
+            function randomfilename(){
+                var currentTime = new Date();
+                var currentTime = new Date();
+                var month = currentTime.getMonth() + 1;
+                var day = currentTime.getDate();
+                var year = currentTime.getFullYear();
+                var hours = currentTime.getHours();
+                var minutes = currentTime.getMinutes();
+                var seconds = currentTime.getSeconds();
+                var origfileName = month + '' + day + '' + year + '' + hours + '' + minutes + '' + seconds;
+                return origfileName;
             }
 
             canvas.setZoom(0.5);
