@@ -175,17 +175,17 @@
                     $pdf->SetFont($fontname, $fontStyle, 14, '', false);
                 }
             }
+
             //$pdf->setXY($offsetwidth, $offsetheight);
             //$pdf->ScaleXY($scalef / $canvasScale * 100);
-            
+
 
             //$pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.8, 'depth_h' => 0.8, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
 
             // NOTE: Uncomment the following line to rasterize SVG image using the ImageMagick library.
             //$pdf->setRasterizeVectorImages(true);
 
-// LAYERS
-
+            // LAYERS
 
             for ($z = 0;$z < $totalobjects;$z++) {
 
@@ -210,19 +210,17 @@
 
             }
 
-            
-
             //$pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.8, 'depth_h' => 0.8, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
-            
+
             //$pdf->ImageSVG($file='test.svg', $x=0, $y=0, $w='', $h='', $link='http://www.tcpdf.org', $align='', $palign='', $border=1, $fitonpage=false);
-            
 
-// NOTE: Uncomment the following line to rasterize SVG image using the ImageMagick library.
-//$pdf->setRasterizeVectorImages(true);
 
-//$pdf->ImageSVG($file='3242022182646.svg', $x=15, $y=30, $w='', $h='', $link='http://www.tcpdf.org', $align='', $palign='', $border=1, $fitonpage=false);
+            // NOTE: Uncomment the following line to rasterize SVG image using the ImageMagick library.
+            //$pdf->setRasterizeVectorImages(true);
 
-//$pdf->setTextShadow(array('enabled' => false, 'depth_w' => 0.8, 'depth_h' => 0.8, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+            //$pdf->ImageSVG($file='3242022182646.svg', $x=15, $y=30, $w='', $h='', $link='http://www.tcpdf.org', $align='', $palign='', $border=1, $fitonpage=false);
+
+            //$pdf->setTextShadow(array('enabled' => false, 'depth_w' => 0.8, 'depth_h' => 0.8, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
 
 
             //$pdf->ImageSVG($file='3242022182646.svg', $x=115, $y=130, $w='', $h='', $link='http://www.tcpdf.org', $align='', $palign='', $border=1, $fitonpage=false);
@@ -231,6 +229,7 @@
             // end the current Template
             //$pdf->endTemplate();
             //$pdf->printTemplate($template_id, ($offsetwidth * $colscount) - $offsetwidth + $cmp, ($offsetheight * $rowscount) - $offsetheight + $cmp, $offsetwidth * 2, $offsetheight * 2, '', '', false);
+
             if ($savecrop != 'false')
             {
                 $pdf->cropMark(($offsetwidth * $colscount) + $cmp, ($offsetheight * $rowscount) + $cmp, $cmp, $cmp, 'TL', array(
@@ -260,7 +259,9 @@
         //$pdf->StopTransform();
     }
     $pdf->Close();
-    $filename = $_SERVER['DOCUMENT_ROOT'] . "./inkbench/outputpdfs/" . 'output.pdf';
+    //$filename = $_SERVER['DOCUMENT_ROOT'] . "inkbenchpdf/outputpdfs/" . 'output.pdf';
+    $filename = $_SERVER['DOCUMENT_ROOT'] . "inkbenchpdf/outputpdfs/" . $_POST['filename'];
+    //$filename = $_SERVER['DOCUMENT_ROOT'] . "gitup/kpomservices/inkbenchpdf/outputpdfs/" . $_POST['filename'];
     $pdf->Output($filename, 'F');
     echo $filename;
     //$filename = $_SERVER['DOCUMENT_ROOT'] . "HTML5CanvasTemplateEditor/design/admin/outputpdfs/temp.pdf";
