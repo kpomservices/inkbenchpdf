@@ -124,7 +124,39 @@
                                 $fontname = TCPDF_FONTS::addTTFfont($fontpath, 'TrueTypeUnicode', '', 96);
                             }
                         }
+
                     }
+
+
+                    /*$fontpath = "./fonts/".$fontFileName.".ttf";
+                    if (file_exists($fontpath))
+                    {
+                        $fontname = TCPDF_FONTS::addTTFfont($fontpath, 'TrueTypeUnicode', '', 96);
+                    } else {
+
+                        $fontpath = "./fonts/".$fontFileName.".ttf";
+
+                        if(file_exists($fontpath)) {
+
+                            $fontname = TCPDF_FONTS::addTTFfont($fontpath,'TrueTypeUnicode', '', 96);
+
+                        } 
+
+                        else {
+
+                            $fontpath = "./fonts/".$fontFileName."-Regular.ttf";
+
+                            if(file_exists($fontpath)) {
+
+                                $fontname = TCPDF_FONTS::addTTFfont($fontpath,'TrueTypeUnicode', '', 96);
+
+                            }
+
+                        }
+                    }*/
+
+
+
                     if ($fontStyle == "Italic")
                     {
                         $fontStyle = "i";
@@ -140,6 +172,8 @@
                     $pdf->SetFont($fontname, $fontStyle, 14, '', false);
                 }
             }
+
+
             for ($z = 0;$z < $totalobjects;$z++) {
                 $svgstring = stripslashes($jsonData[$z]->svg);
                 if($jsonData[$z]->type === 'textbox') {
@@ -148,7 +182,13 @@
                     //echo @$ts->blur;
                     $pdf->setTextShadow(array('enabled' => true, 'depth_w' => @$ts->offsetX, 'depth_h' => @$ts->offsetY, 'color' => @$color, 'opacity' => @$ts->blur, 'blend_mode' => 'Normal'));
                 }
-                $pdf->ImageSVG('@' . $svgstring, $x=30, $y=100, $w='', $h=100, $link='', $align='', $palign='', $border=0, $fitonpage=false);
+                //$pdf->ImageSVG('@' . $svgstring, $x=30, $y=100, $w='', $h=100, $link='', $align='', $palign='', $border=0, $fitonpage=false);
+                // $pdf->ImageSVG('@' . $svgstring);
+
+                //$pdf->ImageSVG('@' . $svgstring, $x=30, $y=100, $w=$cwidth, $h=$cheight, $link='', $align='', $palign='', $border=0, $fitonpage=false);
+
+                // $pdf->ImageSVG('@' . $svgstring, $x = 15, $y = 30, $w = '', $h = '', $link = '', $align = '', $palign = '', $border = 0, $fitonpage = false)
+                $pdf->ImageSVG('@' . $svgstring, $x = 10, $y = 10, $w = $cwidth, $h = $cheight, $link = '', $align = 'T', $palign = 'C', $border = 0, $fitonpage = true);
 
                 if($jsonData[$z]->type === 'textbox') {
                     $ts = $jsonData[$z]->shadow;
@@ -183,8 +223,8 @@
         }
     }
     $pdf->Close();
-    //$filename = $_SERVER['DOCUMENT_ROOT'] . "gitup/kpomservices/inkbenchpdf/outputpdfs/" . $_POST['filename'];
-    $filename = $_SERVER['DOCUMENT_ROOT'] . "inkbenchpdf/outputpdfs/" . $_POST['filename'];
+    $filename = $_SERVER['DOCUMENT_ROOT'] . "gitup/kpomservices/inkbenchpdf/outputpdfs/" . $_POST['filename'];
+    //$filename = $_SERVER['DOCUMENT_ROOT'] . "inkbenchpdf/outputpdfs/" . $_POST['filename'];
     $pdf->Output($filename, 'F');
     echo $filename;
     

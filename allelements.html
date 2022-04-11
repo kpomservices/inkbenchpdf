@@ -1,14 +1,85 @@
 <!DOCTYPE html>
 <html lang="en" >
 <head> 
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta http-equiv="Access-Control-Allow-Origin" content="https://fonts.google.com">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>PDF Render</title>
     <style>
         canvas {
           border: 1px solid #999;
         }
+        @font-face {
+          font-family: "Pacifico";
+          src: url("./fonts/Pacifico.ttf");
+          font-weight: normal;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "Courgette";
+          src: url("./tcpdf/fonts/googlefonts/Courgette/Courgette-Regular.ttf");
+          font-weight: normal;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "Roboto-Black";
+          src: url("./tcpdf/fonts/googlefonts/Roboto-Black/Roboto-Black-Regular.ttf");
+          font-weight: normal;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "DejaVuSans";
+          src: url("./tcpdf/fonts/googlefonts/DejaVuSans/DejaVuSans.ttf");
+          font-weight: normal;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "DejaVuSansCondensed";
+          src: url("./tcpdf/fonts/googlefonts/DejaVuSansCondensed/DejaVuSansCondensed.ttf");
+          font-weight: normal;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "AmaticSC";
+          src: url("./tcpdf/fonts/googlefonts/AmaticSC/AmaticSC.ttf");
+          font-weight: normal;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "Arizonia";
+          src: url("./tcpdf/fonts/googlefonts/Arizonia/Arizonia.ttf");
+          font-weight: normal;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "Kalam";
+          src: url("./tcpdf/fonts/googlefonts/Kalam/Kalam-Regular.ttf");
+          font-weight: normal;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "LatoHeavy";
+          src: url("./tcpdf/fonts/googlefonts/LatoHeavy/LatoHeavy.ttf");
+          font-weight: normal;
+          font-style: normal;
+        } 
+        @font-face {
+            font-family: "Alegreya";
+            src: url("./tcpdf/fonts/googlefonts/Alegreya/Alegreya-Bold.ttf");
+            font-weight: bold;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "Alegreya";
+            src: url("./tcpdf/fonts/googlefonts/Alegreya/Alegreya-Italic.ttf");
+            font-weight: normal;
+            font-style: italic;
+        }
     </style>
     <script>
-    window.console = window.console || function(t) {};
+        window.console = window.console || function(t) {};
     </script>
     <script>
         if (document.location.search.match(/type=embed/gi)) {
@@ -16,12 +87,11 @@
         }
     </script>
 </head>
-    <body translate="no" >
+    <body translate="no">
         <p>PDF output:</p>
         <button onclick="generatePDF();">generatePDF</button>
         <button onclick="rasterPDFdownload();">Raster PDF download</button>
         <canvas id="c" width="1000" height="500"></canvas>
-
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
             <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.3/fabric.min.js" integrity="sha512-DwbCgiW/2uFJkC4G3dIZmQuEY4aDajSrKaovVFnbVz5+ziJ7fvlWZ2CVEPommhxV8LNB/8uurTxNTzIkkh8PJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -34,10 +104,8 @@
                 img1 = 'http://dummyimage.com/200/09f/fff.png',
                 img2 = 'http://dummyimage.com/240x240/b314b3/fff.jpg',
                 prevDirection;
-
-            //fabric.Group.prototype.originX = fabric.Group.prototype.originY = 'center';
-
-            const text = new fabric.Textbox("Hello World", {
+            const text = new fabric.Textbox("HelloWorld-Courgette", {  
+                fontFamily: "Courgette",
                 left: 100,
                 top: 200,
                 fill: "black",
@@ -47,19 +115,39 @@
                     offsetX: -4,
                     offsetY: 3
                 }),
-                // shadow: '#808080 -4px 3px 5px',
-                //fontFamily: "LikeBellefairButOpentype",
                 fontSize: 48,
-                //openTypeJsShimConfig: shimConfig
             });
-
             canvas.add(text);
             canvas.renderAll();
-
-            var textbox = new fabric.Textbox('Hello World');
-            canvas.add(textbox);
-            var textbox = new fabric.Textbox('Hello World New');
-            canvas.add(textbox);
+            var textbox1 = new fabric.Textbox('Alegreya bold', {
+                fontWeight: 'bold',
+                width: 500,              
+                fontFamily: "Alegreya"
+            });
+            canvas.add(textbox1);
+            var textbox1 = new fabric.Textbox('Alegreya italic', {
+                fontStyle: 'italic',
+                width: 500,
+                fontFamily: "Alegreya"
+            });
+            canvas.add(textbox1);
+            var textbox1 = new fabric.Textbox('Alegreya strokewidth', {
+                fontFamily: "Alegreya",
+                width: 500,
+                strokeWidth: 5,
+                stroke: "green"
+            });
+            canvas.add(textbox1);
+            var textbox2 = new fabric.Textbox('Alegreya -stroke color', {
+                width: 500,
+                fontFamily: "Alegreya",                
+                stroke: "green"
+            });
+            canvas.add(textbox2);
+            var textbox2 = new fabric.Textbox('PacificoPacificoPacificoPacificoPacifico', {
+                fontFamily: "Pacifico"
+            });
+            canvas.add(textbox2);
             fabric.Image.fromURL(img1, function(fimg1) {
                 fimg1.set({
                     left: 700,
@@ -78,36 +166,21 @@
                     });
                     canvas.add(fimg1, fimg2);
                 });
-                // fabric.Image.fromURL(img1, function(img3) {
-                //     img3.set({
-                //         left: 500,
-                //         top: 500,
-                //         lockUniScaling: true,
-                //         originX: 'left',
-                //         originY: 'top'
-                //     });
-                //     canvas.add(img3);
-                // });
-                // fabric.Image.fromURL(img2, function(img4) {
-                //     img4.set({
-                //         left: 600,
-                //         top: 600,
-                //         lockUniScaling: true,
-                //         originX: 'left',
-                //         originY: 'top'
-                //     });
-                //     canvas.add(img4);
-                // });
             });
             var site_url = '3242022182149.svg';
-
             fabric.loadSVGFromURL(site_url, function(objects, options) {
                 var SVG = fabric.util.groupSVGElements(objects, options);
                 canvas.add(SVG).centerObject(SVG).renderAll();
                 SVG.setCoords();
                 canvas.renderAll();
             });
-
+            var site_url = '3242022182646.svg';
+            fabric.loadSVGFromURL(site_url, function(objects, options) {
+                var SVG = fabric.util.groupSVGElements(objects, options);
+                canvas.add(SVG).centerObject(SVG).renderAll();
+                canvas.renderAll();
+            });
+            //canvas.setZoom(0.5);
             function generatePDF() {
                 var jsonCanvasArray = [];
                 var objs = canvas.getObjects();
@@ -121,7 +194,7 @@
                     var json = {
                         type: objs[i].type,
                         shadow: objs[i].shadow,
-                        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="833.3333333333334" height="833.3333333333334" viewBox="0 0 833.33 833.33" xml:space="preserve">' + objs[i].toSVG() + '</svg>'
+                        svg: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="' + canvas.width + '" height="' + canvas.height + '">' + objs[i].toSVG() + '</svg>'
                     };
                     jsonCanvasArray.push(json);
                 }
@@ -129,7 +202,6 @@
                 var cwidth = canvas.width;
                 var cheight = canvas.height;
                 var pdffilename = randomfilename() + ".pdf";
-
                 $.ajax({
                     type: 'POST',
                     url: 'inkbenchpdf.php',
@@ -147,23 +219,20 @@
                     }
                 })
             }
-
             function rasterPDFdownload() {
                 var cwidth = canvas.width / 1.5;
                 var cheight = canvas.height / 1.5;
-
                 var orientation = 'l';
                 if (cheight > cwidth)
                     orientation = 'p';
-
-                /* setTimeout(function() {
+                /*setTimeout(function() {
                      var pdf = new jsPDF(orientation, 'px', [cwidth, cheight]);
                      var width = pdf.internal.pageSize.width;
                      var height = pdf.internal.pageSize.height;
                      var img = document.getElementById('canvasarea').toDataURL("image/png");
                      img.setAttribute('crossorigin', 'anonymous'); 
                      pdf.addPage();
-                     pdf.addImage(document.getElementById('canvasarea'), 'JPEG', 0, 0, width, height);
+                     pdf.addImage(img, 'JPEG', 0, 0, width, height);
                      pdf.deletePage(1);
                      fileName = origfileName + ".pdf";
                      pdf.save(fileName);
@@ -172,34 +241,42 @@
                 /*setTimeout(function() {
                     html2canvas(document.getElementById("c"), {
                         onrendered: function(canvas) {
-
                             var imgData = canvas.toDataURL('image/png');
                             console.log('Report Image URL: '+imgData);
-                            var doc = new jsPDF('p', 'mm', [297, 210]); //210mm wide and 297mm high
-                            
+                            var doc = new jsPDF('p', 'mm', [297, 210]); //210mm wide and 297mm high                            
                             doc.addImage(imgData, 'PNG', 10, 10);
                             doc.save('sample.pdf');
                         }
                     });
-
                 }, 10);*/
 
-                setTimeout(function() {
+                /*setTimeout(function() {
+                    var test = canvas.toDataURL();
                     var pdf = new jsPDF(orientation, 'px', [cwidth, cheight]);
                     var width = pdf.internal.pageSize.width;
                     var height = pdf.internal.pageSize.height;
                     //var img = canvas.toDataURL('image/png');
-                    //var img = canvas.toDataURL();
-                    var img = document.getElementById('c').toDataURL("image/png");
+                    var img = canvas.toDataURL();
                     // img.setAttribute('crossorigin', 'anonymous'); 
                     pdf.addPage();
                     pdf.addImage(img, 'JPEG', 0, 0, width, height);
                     pdf.deletePage(1);
                     var jspdffileName = randomfilename() + ".pdf";
                     pdf.save(jspdffileName);
-                }, 10);
+                }, 10); 
+                */
+                html2canvas($("#c"), {
+                    onrendered: function(canvas) {         
+                        var imgData = canvas.toDataURL();  
+                        var doc = new jsPDF(orientation, 'px', [cwidth, cheight]);
+                        var width = doc.internal.pageSize.width;
+                        var height = doc.internal.pageSize.height;
+                        doc.addImage(imgData, 'JPEG', 0, 0, width, height);
+                        var jspdffileName = randomfilename() + ".pdf";
+                        doc.save(jspdffileName);
+                    }
+                });
             }
-
             function randomfilename(){
                 var currentTime = new Date();
                 var currentTime = new Date();
@@ -212,9 +289,6 @@
                 var origfileName = month + '' + day + '' + year + '' + hours + '' + minutes + '' + seconds;
                 return origfileName;
             }
-
-            canvas.setZoom(0.5);
-            //# sourceURL=pen.js
         </script>
     </body>
 </html>
